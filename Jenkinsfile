@@ -1,16 +1,24 @@
 pipeline {
     agent any
-
+    
     stages {
-        stage('Install dependencies') {
-            steps {
-                bat 'npm install'
-            }
-        }
         stage('Build') {
             steps {
-                bat 'npm run build'
+                echo 'Building the Java application'
+                sh 'javac Main.java'
             }
+        }
+        stage('Test') {
+            steps {
+                echo 'Running tests'
+                sh 'java Main'
+            }
+        }
+    }
+    
+    post {
+        always {
+            sh 'rm Main.class'
         }
     }
 }
